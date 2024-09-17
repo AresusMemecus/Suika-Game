@@ -1,148 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fruit Physics Game</title>
-    <style>
-        canvas {
-            display: block;
-            margin: 0 auto;
-            background-color: #f0f0f0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suika / Watermelon Game Clone</title>
+  <meta property="og:title" content="Suika / Watermelon Game Clone" />
+  <meta property="og:image" content="https://tombofry.github.io/suika-game/screenshot.png" />
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/archive');
+
+    :root {
+      --col-bg: #158fa7;
+      --col-bg-light: #e40202;
+      --col-bg-lighter: #ffffffd9;
+      --col-primary-dark: #FF2700;
+      --col-primary-light: #FF8800;
+      --col-shadow: rgba(0, 0, 0, 0.25);
+      --col-white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      line-height: 1;
+    }
+
+    body {
+        background-color: var(--col-bg);
+        font-family: 'Archive', sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    #game-canvas {
+      position: relative;
+      box-shadow: 0px 0px 15px 15px #1b1b1b3f;
+    }
+
+    #game-ui {
+      position: absolute;
+      width: 640px;
+      height: 960px;
+      pointer-events: none;
+      user-select: none;
+      font-weight: 700;
+      display: none;
+      transform-origin: top left;
+    }
+
+    #game-score {
+      position: absolute;
+      width: 100%;
+      border-bottom: 2px dotted #333;
+      font-size: 84px;
+      font-weight: 900;
+      padding-left: 16px;
+      color: var(--col-bg-lighter);
+      text-shadow: 3px 3px 0 var(--col-primary), -3px -3px 0 var(--col-primary), -3px 3px 0 var(--col-primary), 3px -3px 0 var(--col-primary);
+    }
+
+    #game-end-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-items: center;
+      background-color: var(--col-shadow);
+    }
+
+    #game-end {
+      text-align: center;
+      padding: 32px 48px;
+      background-color: var(--col-bg-lighter);
+      border: 5px solid var(--col-primary);
+      box-shadow: 0 4px 32px var(--col-shadow);
+      border-radius: 32px;
+      margin: 0 auto;
+      pointer-events: initial;
+      user-select: initial;
+    }
+
+    #game-end-title {
+      font-weight: 700;
+      font-size: 48px;
+      color: var(--col-primary-dark);
+    }
+
+    #game-end-link {
+      display: inline-block;
+      color: var(--col-white);
+      font-size: 24px;
+      text-decoration: none;
+      background-color: var(--col-primary-light);
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 16px;
+      box-shadow: 4px 4px 0 var(--col-shadow);
+    }
+
+    #game-end-link:hover {
+      background-color: var(--col-primary);
+      box-shadow: 6px 6px 0 var(--col-shadow);
+    }
+
+    #game-status {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 48px;
+      background-color: var(--col-bg-lighter);
+      display: flex;
+    }
+
+    .game-status-item {
+      display: flex;
+      line-height: 1;
+      align-items: center;
+      margin-right: 32px;
+    }
+
+    .game-status-label {
+      color: #666;
+      font-size: 16px;
+      margin-left: 24px;
+      margin-right: 8px;
+    }
+
+    #game-highscore-value {
+      color: #333;
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    #game-next-fruit {
+      width: 24px;
+      height: 24px;
+    }
+  </style>
 </head>
 <body>
-    <canvas id="gameCanvas"></canvas>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+  <div class="container">
+    <div id="game-canvas">
+      <div id="game-ui">
+        <p id="game-score"></p>
 
-        // Устанавливаем размеры канваса
-        canvas.width = 300;
-        canvas.height = 500;
+        <div id="game-end-container">
+          <div id="game-end">
+            <div id="game-end-title">Game Over!</div>
+            <a id="game-end-link" href="">Try Again</a>
+          </div>
+        </div>
 
-        const fruits = [
-            { name: 'watermelon', color: 'red', size: 20 },
-            { name: 'grape', color: 'orange', size: 30 },
-            { name: 'grape', color: 'yellow', size: 40 },
-            { name: 'grape', color: 'green', size: 60 },
-            { name: 'grape', color: 'blue', size: 80 },
-            { name: 'grape', color: '#ADD8E6', size: 120 },
-            { name: 'grape', color: 'black', size: 140 },
-            { name: 'grape', color: 'gary', size: 170 },
-            { name: 'grape', color: 'brown', size: 200 },
-            { name: 'grape', color: 'magenta', size: 240 },
-            { name: 'grape', color: 'purple', size: 300 }
-        ];
-
-        // Настройка Matter.js
-        const { Engine, Render, Runner, Bodies, Composite, Mouse, MouseConstraint, Events } = Matter;
-
-        const engine = Engine.create();
-        const world = engine.world;
-
-        // Создаем рендерер
-        const render = Render.create({
-            canvas: canvas,
-            engine: engine,
-            options: {
-                width: canvas.width,
-                height: canvas.height,
-                wireframes: false,
-                background: '#f0f0f0'
-            }
-        });
-
-        Render.run(render);
-        const runner = Runner.create();
-        Runner.run(runner, engine);
-
-        // Создание границ стакана
-        const ground = Bodies.rectangle(canvas.width / 2, canvas.height + 10, canvas.width, 20, { isStatic: true });
-        const leftWall = Bodies.rectangle(-10, canvas.height / 2, 20, canvas.height, { isStatic: true });
-        const rightWall = Bodies.rectangle(canvas.width + 10, canvas.height / 2, 20, canvas.height, { isStatic: true });
-
-        Composite.add(world, [ground, leftWall, rightWall]);
-
-        // Функция для создания случайного фрукта
-        function createFruit(x, y, sizeIndex) {
-            const fruitData = fruits[sizeIndex];
-            const fruit = Bodies.circle(x, y, fruitData.size / 2, {
-                restitution: 0.5, // Упругость
-                friction: 0.01,   // Трение
-                label: sizeIndex.toString(), // Сохраняем индекс размера как метку
-                render: {
-                    fillStyle: fruitData.color
-                }
-            });
-            Composite.add(world, fruit);
-            return fruit;
-        }
-
-        // Обработчик клика для создания фрукта
-        canvas.addEventListener('click', function(event) {
-            const rect = canvas.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-            const randomSizeIndex = Math.floor(Math.random() * 5);
-            createFruit(x, y, randomSizeIndex);
-        });
-
-
-
-       // Обработка событий столкновений
-Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs;
-    const collisions = {};
-
-    pairs.forEach(pair => {
-        const bodyA = pair.bodyA;
-        const bodyB = pair.bodyB;
-
-        // Проверяем, совпадают ли размеры двух шаров
-        if (bodyA.label === bodyB.label) {
-            const sizeIndex = parseInt(bodyA.label);
-
-            // Сохраняем информацию о столкновении
-            if (!collisions[sizeIndex]) {
-                collisions[sizeIndex] = [];
-            }
-            collisions[sizeIndex].push({ bodyA, bodyB });
-        }
-    });
-
-    // Обрабатываем столкновения
-    for (const sizeIndex in collisions) {
-        const collisionGroup = collisions[sizeIndex];
-
-        // Обрабатываем только два шара
-        if (collisionGroup.length > 0) {
-            const { bodyA, bodyB } = collisionGroup[0]; // Берем первое столкновение
-
-            setTimeout(() => {
-                // Удаляем оба шара
-                Composite.remove(world, bodyA);
-                Composite.remove(world, bodyB);
-
-                // Создаем новый шар на ступень выше по размеру, если возможно
-                if (parseInt(sizeIndex) + 1 < fruits.length) {
-                    const newX = (bodyA.position.x + bodyB.position.x) / 2;
-                    const newY = (bodyA.position.y + bodyB.position.y) / 2;
-                    createFruit(newX, newY, parseInt(sizeIndex) + 1);
-                }
-            }, 10); // Задержка перед удалением и созданием нового шара
-        }
-    }
-});
-
-
-        // Запуск рендера и физики
-        Render.run(render);
-        Runner.run(runner, engine);
-
-    </script>
+        <div id="game-status">
+          <div class="game-status-item">
+            <div class="game-status-label">Highscore</div>
+            <div id="game-highscore-value">0</div>
+          </div>
+          <div class="game-status-item">
+            <div class="game-status-label">Next</div>
+            <img id="game-next-fruit" src="./assets/img/circle0.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
+  <script type="text/javascript" src="./matter.js"></script>
+  <script type="text/javascript" src="./index.js?v=4"></script>
 </body>
 </html>
