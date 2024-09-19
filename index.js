@@ -34,6 +34,12 @@ const GameStates = {
 	LOSE: 3,
 };
 
+
+
+			//Game
+
+
+
 const Game = {
 	width: 640,
 	height: 960,
@@ -62,6 +68,7 @@ const Game = {
 		pop9: new Audio('./assets/pop9.mp3'),
 		pop10: new Audio('./assets/pop10.mp3'),
 	},
+	
 
 	stateIndex: GameStates.MENU,
 
@@ -142,7 +149,6 @@ const Game = {
 
 		Events.on(mouseConstraint, 'mousedown', menuMouseDown);
 	},
-
 	startGame: function () {
 		Game.sounds.click.play();
 
@@ -269,7 +275,7 @@ const Game = {
 
 	addFruit: function (x) {
 		if (Game.stateIndex !== GameStates.READY) return;
-
+		
 		Game.sounds.click.play();
 
 		Game.stateIndex = GameStates.DROP;
@@ -307,6 +313,12 @@ const render = Render.create({
 		background: '#70eeff'
 	}
 });
+
+
+
+			//
+
+
 
 const menuStatics = [
 	Bodies.rectangle(Game.width / 2, Game.height * 0.4, 512, 512, {
@@ -401,3 +413,274 @@ const resizeCanvas = () => {
 
 document.body.onload = resizeCanvas;
 document.body.onresize = resizeCanvas;
+
+
+
+			//Valume
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const range = document.querySelector(".volume input[type=range]");
+
+  const barHoverBox = document.querySelector(".volume .bar-hoverbox");
+  const fill = document.querySelector(".volume .bar .bar-fill");
+  
+  range.addEventListener("change", (e) => {
+    console.log("value", e.target.value);
+  });
+  
+  const setValue = (value) => {
+    fill.style.width = value + "%";
+    range.setAttribute("value", value)
+    range.dispatchEvent(new Event("change"))
+  }
+  
+  // Дефолт
+  setValue(range.value);
+  
+  const calculateFill = (e) => {
+    // Отнимаем ширину двух 15-пиксельных паддингов из css
+    let offsetX = e.offsetX
+    
+    if (e.type === "touchmove") {
+      offsetX = e.touches[0].pageX - e.touches[0].target.offsetLeft
+    }
+    
+    const width = e.target.offsetWidth - 30;
+
+    setValue(
+      Math.max(
+        Math.min(
+          // Отнимаем левый паддинг
+          (offsetX - 15) / width * 100.0,
+          100.0
+        ),
+        0
+      )
+    );
+  }
+  
+  let barStillDown = false;
+
+  barHoverBox.addEventListener("touchstart", (e) => {
+    barStillDown = true;
+
+    calculateFill(e);
+  }, true);
+  
+  barHoverBox.addEventListener("touchmove", (e) => {
+    if (barStillDown) {
+      calculateFill(e);
+    }
+  }, true);
+  
+  barHoverBox.addEventListener("mousedown", (e) => {
+    barStillDown = true;
+    
+    calculateFill(e);
+  }, true);
+  
+  barHoverBox.addEventListener("mousemove", (e) => {
+    if (barStillDown) {
+      calculateFill(e);
+    }
+  });
+  
+  barHoverBox.addEventListener("wheel", (e) => {
+    const newValue = +range.value + e.deltaY * 0.5;
+    
+    setValue(Math.max(
+      Math.min(
+        newValue,
+        100.0
+      ),
+      0
+    ))
+  });
+  
+  document.addEventListener("mouseup", (e) => {
+    barStillDown = false;
+  }, true);
+  
+  document.addEventListener("touchend", (e) => {
+    barStillDown = false;
+  }, true);
+})
+
+document.addEventListener("DOMContentLoaded", () => {
+	const range = document.querySelector(".volume input[type=range]");
+  
+	const barHoverBox = document.querySelector(".volume .bar-hoverbox");
+	const fill = document.querySelector(".volume .bar .bar-fill");
+  
+	range.addEventListener("change", e => {
+	  console.log("value", e.target.value);
+	});
+  
+	const setValue = value => {
+	  fill.style.width = value + "%";
+	  range.setAttribute("value", value);
+	  range.dispatchEvent(new Event("change"));
+	};
+  
+	// Дефолт
+	setValue(range.value);
+  
+	const calculateFill = e => {
+	  // Отнимаем ширину двух 15-пиксельных паддингов из css
+	  let offsetX = e.offsetX;
+  
+	  if (e.type === "touchmove") {
+		offsetX = e.touches[0].pageX - e.touches[0].target.offsetLeft;
+	  }
+  
+	  const width = e.target.offsetWidth - 30;
+  
+	  setValue(
+	  Math.max(
+	  Math.min(
+	  // Отнимаем левый паддинг
+	  (offsetX - 15) / width * 100.0,
+	  100.0),
+  
+	  0));
+  
+  
+	};
+  
+	let barStillDown = false;
+  
+	barHoverBox.addEventListener("touchstart", e => {
+	  barStillDown = true;
+  
+	  calculateFill(e);
+	}, true);
+  
+	barHoverBox.addEventListener("touchmove", e => {
+	  if (barStillDown) {
+		calculateFill(e);
+	  }
+	}, true);
+  
+	barHoverBox.addEventListener("mousedown", e => {
+	  barStillDown = true;
+  
+	  calculateFill(e);
+	}, true);
+  
+	barHoverBox.addEventListener("mousemove", e => {
+	  if (barStillDown) {
+		calculateFill(e);
+	  }
+	});
+  
+	barHoverBox.addEventListener("wheel", e => {
+	  const newValue = +range.value + e.deltaY * 0.5;
+  
+	  setValue(Math.max(
+	  Math.min(
+	  newValue,
+	  100.0),
+  
+	  0));
+  
+	});
+  
+	document.addEventListener("mouseup", e => {
+	  barStillDown = false;
+	}, true);
+  
+	document.addEventListener("touchend", e => {
+	  barStillDown = false;
+	}, true);
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const range = document.querySelector(".volume input[type=range]");
+    const barHoverBox = document.querySelector(".volume .bar-hoverbox");
+    const fill = document.querySelector(".volume .bar .bar-fill");
+
+    const setVolume = (value) => {
+        Game.sounds.click.volume = value / 100;
+        Game.sounds.pop0.volume = value / 100;
+        Game.sounds.pop1.volume = value / 100;
+        Game.sounds.pop2.volume = value / 100;
+        Game.sounds.pop3.volume = value / 100;
+        Game.sounds.pop4.volume = value / 100;
+        Game.sounds.pop5.volume = value / 100;
+        Game.sounds.pop6.volume = value / 100;
+        Game.sounds.pop7.volume = value / 100;
+        Game.sounds.pop8.volume = value / 100;
+        Game.sounds.pop9.volume = value / 100;
+        Game.sounds.pop10.volume = value / 100;
+    };
+
+    range.addEventListener("change", (e) => {
+        console.log("value", e.target.value);
+        setVolume(e.target.value); // Изменение громкости
+    });
+
+    const setValue = (value) => {
+        fill.style.width = value + "%";
+        range.setAttribute("value", value);
+        range.dispatchEvent(new Event("change"));
+    };
+
+    // Дефолт
+    setValue(range.value);
+
+    const calculateFill = (e) => {
+        let offsetX = e.offsetX;
+
+        if (e.type === "touchmove") {
+            offsetX = e.touches[0].pageX - e.touches[0].target.offsetLeft;
+        }
+
+        const width = e.target.offsetWidth - 30;
+
+        setValue(
+            Math.max(
+                Math.min((offsetX - 15) / width * 100.0, 100.0),
+                0
+            )
+        );
+    };
+
+    let barStillDown = false;
+
+    barHoverBox.addEventListener("touchstart", (e) => {
+        barStillDown = true;
+        calculateFill(e);
+    }, true);
+
+    barHoverBox.addEventListener("touchmove", (e) => {
+        if (barStillDown) {
+            calculateFill(e);
+        }
+    }, true);
+
+    barHoverBox.addEventListener("mousedown", (e) => {
+        barStillDown = true;
+        calculateFill(e);
+    }, true);
+
+    barHoverBox.addEventListener("mousemove", (e) => {
+        if (barStillDown) {
+            calculateFill(e);
+        }
+    });
+
+    barHoverBox.addEventListener("wheel", (e) => {
+        const newValue = +range.value + e.deltaY * 0.5;
+        setValue(Math.max(Math.min(newValue, 100.0), 0));
+    });
+
+    document.addEventListener("mouseup", (e) => {
+        barStillDown = false;
+    }, true);
+
+    document.addEventListener("touchend", (e) => {
+        barStillDown = false;
+    }, true);
+});

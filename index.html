@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
   <title>SuikaShield</title>
   <style>
+
     @import url('https://fonts.cdnfonts.com/css/archive');
 
     :root {
@@ -30,6 +32,7 @@
     }
 
     .container {
+      position: relative;
       width: 100%;
       max-width: 500px;
       height: 100vh;
@@ -40,7 +43,8 @@
     }
 
     #game-canvas {
-      position: relative;
+      bottom: 0;
+      position: absolute;
       box-shadow: 0px 0px 15px 15px #1b1b1b3f;
     }
 
@@ -145,6 +149,55 @@
       width: 24px;
       height: 24px;
     }
+
+    .volumepos{
+      position:absolute;
+      margin: 20px;
+      top: 0;
+      right: -230px;
+    }
+    .volume {   
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .volume input[type=range] {
+      display: none;
+    }
+    .volume .icon-size {
+      font-size: 2rem;
+      color: white;
+    }
+    .volume .bar-hoverbox {
+      padding: 10px 15px;
+      opacity: 0.0;
+      transition: opacity 0.2s;
+    }
+    .volume .bar-hoverbox:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+    .volumepos:hover .bar-hoverbox {
+    opacity: 1; /* При наведении на volumepos делаем бар видимым */
+    visibility: visible;
+    }
+    .volume .bar {
+      background: #999;
+      height: 7px;
+      width: 120px;
+      border-radius: 15px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .volume .bar .bar-fill {
+      background: #FFF;
+      width: 0%;
+      height: 100%;
+      background-clip: border-box;
+      pointer-events: none;
+    }
+
+
   </style>
 </head>
 <body>
@@ -173,9 +226,26 @@
         </div>
       </div>
     </div>
+
+    <div class="volumepos">
+      <div class="volume">
+        <input type="range" min="0" max="100" value="50" class="volume-range">
+        <div class="icon">
+          <i class="fa fa-volume-up icon-size" aria-hidden="true"></i>
+        </div>
+        <div class="bar-hoverbox">
+          <div class="bar">
+            <div class="bar-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+
   <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
   <script type="text/javascript" src="./matter.js"></script>
   <script type="text/javascript" src="./index.js?v=4"></script>
+
 </body>
 </html>
