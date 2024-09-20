@@ -310,7 +310,7 @@ const render = Render.create({
 		width: Game.width,
 		height: Game.height,
 		wireframes: false,
-		background: '#70eeff'
+		background: '#0e0e10'
 	}
 });
 
@@ -384,6 +384,12 @@ render.mouse = mouse;
 
 
 Game.initGame();
+
+
+
+			//Resize
+
+
 
 const resizeCanvas = () => {
 	const screenWidth = document.body.clientWidth;
@@ -614,6 +620,14 @@ document.addEventListener("DOMContentLoaded", () => {
         Game.sounds.pop8.volume = value / 100;
         Game.sounds.pop9.volume = value / 100;
         Game.sounds.pop10.volume = value / 100;
+
+		if (value == 0) {
+			icon.classList.remove("fa-volume-up");
+			icon.classList.add("fa-volume-mute");
+		  } else {
+			icon.classList.remove("fa-volume-mute");
+			icon.classList.add("fa-volume-up");
+		  }
     };
 
     range.addEventListener("change", (e) => {
@@ -683,4 +697,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("touchend", (e) => {
         barStillDown = false;
     }, true);
+
+	range.addEventListener("input", (e) => {
+		const value = e.target.value;
+		setVolume(value); 
+	  });
+	
 });
