@@ -702,5 +702,33 @@ document.addEventListener("DOMContentLoaded", () => {
 		const value = e.target.value;
 		setVolume(value); 
 	  });
-	
+
+});
+
+
+// Инициализация SQL.js
+initSqlJs().then(function(SQL) {
+    console.log("SQL.js инициализирован");
+    
+    // Создаем новую базу данных в памяти
+    var db = new SQL.Database();
+    
+    // Создаем таблицу
+    db.run("CREATE TABLE test (score INTEGER, user TEXT);");
+    console.log("Таблица создана");
+    
+    // Вставляем данные в таблицу
+    db.run("INSERT INTO test (score, user) VALUES (?, ?), (?, ?);", [1, 'Alice', 2, 'Bob']);
+    console.log("Данные вставлены");
+    
+    // Выполняем запрос на получение данных
+    var res = db.exec("SELECT * FROM test");
+    
+    // Выводим результат запроса
+    console.log(res);
+    
+    // Теперь вы можете обращаться к базе данных через объект db
+    window.db = db; // Делаем объект db доступным глобально
+}).catch(function(error) {
+    console.error("Ошибка инициализации SQL.js:", error);
 });
