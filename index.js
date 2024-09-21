@@ -719,8 +719,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		  render.options.background = '#a9cdd4'; // Светлый фон
 		}
   
-		// Обновляем фон рендера
-		Matter.Render.setBackground(render, render.options.background);
 	  }
   
 	  // Получаем элемент иконки по ID
@@ -729,15 +727,15 @@ document.addEventListener("DOMContentLoaded", () => {
 	  // Добавляем событие клика
 	  themeSwitcherIcon.addEventListener('click', function() {
 		changeBackgroundColor(); // Меняем фон
-  
+
 		// Дополнительно можно обновить иконку
-		if (render.options.background === '#333') {
-		  themeSwitcherIcon.classList.remove('bi bi-brightness-high-fill');
-		  themeSwitcherIcon.classList.add('bi bi-moon-fill'); 
-		  console.log("DARK"); // Иконка "Луна" для тёмной темы
+		if (render.options.background === '#303030') {
+		  themeSwitcherIcon.classList.add('bi-brightness-high-fill');
+		  themeSwitcherIcon.classList.remove('bi-moon-fill'); 
+		  
 		} else {
-		  themeSwitcherIcon.classList.remove('bi bi-moon-fill');
-		  themeSwitcherIcon.classList.add('bi bi-brightness-high-fill');  // Иконка "Солнце" для светлой темы
+		  themeSwitcherIcon.classList.add('bi-moon-fill');
+		  themeSwitcherIcon.classList.remove('bi-brightness-high-fill');  // Иконка "Солнце" для светлой темы
 		}
 	  });
 
