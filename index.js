@@ -427,10 +427,10 @@ document.body.onresize = resizeCanvas;
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const range = document.querySelector(".volume input[type=range]");
+  const range = document.querySelector(".settings input[type=range]");
 
-  const barHoverBox = document.querySelector(".volume .bar-hoverbox");
-  const fill = document.querySelector(".volume .bar .bar-fill");
+  const barHoverBox = document.querySelector(".settings .bar-hoverbox");
+  const fill = document.querySelector(".settings .bar .bar-fill");
   
   range.addEventListener("change", (e) => {
     console.log("value", e.target.value);
@@ -515,10 +515,10 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 document.addEventListener("DOMContentLoaded", () => {
-	const range = document.querySelector(".volume input[type=range]");
+	const range = document.querySelector(".settings input[type=range]");
   
-	const barHoverBox = document.querySelector(".volume .bar-hoverbox");
-	const fill = document.querySelector(".volume .bar .bar-fill");
+	const barHoverBox = document.querySelector(".settings .bar-hoverbox");
+	const fill = document.querySelector(".settings .bar .bar-fill");
   
 	range.addEventListener("change", e => {
 	  console.log("value", e.target.value);
@@ -603,9 +603,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.addEventListener("DOMContentLoaded", () => {
-    const range = document.querySelector(".volume input[type=range]");
-    const barHoverBox = document.querySelector(".volume .bar-hoverbox");
-    const fill = document.querySelector(".volume .bar .bar-fill");
+    const range = document.querySelector(".settings input[type=range]");
+    const barHoverBox = document.querySelector(".settings .bar-hoverbox");
+    const fill = document.querySelector(".settings .bar .bar-fill");
 
     const setVolume = (value) => {
         Game.sounds.click.volume = value / 100;
@@ -704,3 +704,71 @@ document.addEventListener("DOMContentLoaded", () => {
 	  });
 	
 });
+
+
+			//THEME
+
+
+
+    // Функция для изменения фона
+    function changeBackgroundColor() {
+		// Проверяем текущий цвет и переключаем
+		if (render.options.background === '#a9cdd4') {
+		  render.options.background = '#303030'; // Темный фон
+		} else {
+		  render.options.background = '#a9cdd4'; // Светлый фон
+		}
+  
+		// Обновляем фон рендера
+		Matter.Render.setBackground(render, render.options.background);
+	  }
+  
+	  // Получаем элемент иконки по ID
+	  const themeSwitcherIcon = document.getElementById('theme-switcher');
+  
+	  // Добавляем событие клика
+	  themeSwitcherIcon.addEventListener('click', function() {
+		changeBackgroundColor(); // Меняем фон
+  
+		// Дополнительно можно обновить иконку
+		if (render.options.background === '#333') {
+		  themeSwitcherIcon.classList.remove('bi bi-brightness-high-fill');
+		  themeSwitcherIcon.classList.add('bi bi-moon-fill'); 
+		  console.log("DARK"); // Иконка "Луна" для тёмной темы
+		} else {
+		  themeSwitcherIcon.classList.remove('bi bi-moon-fill');
+		  themeSwitcherIcon.classList.add('bi bi-brightness-high-fill');  // Иконка "Солнце" для светлой темы
+		}
+	  });
+
+	  const themeSwitcher = document.getElementById('theme-switcher');
+	  const gameCanvas = document.getElementById('game-canvas');
+	  const gameScore = document.getElementById('game-score');
+
+
+	  themeSwitcher.addEventListener('click', function() {
+		const rootStyles = document.documentElement.style;
+		const currentBgColor = getComputedStyle(document.documentElement).getPropertyValue('--col-bg').trim();
+	
+		if (currentBgColor === '#477a91') {
+		  // Темная тема
+		  rootStyles.setProperty('--col-bg', '#141414');        // Темный фон
+		  rootStyles.setProperty('--col-primary-light', '#555'); // Темный цвет для элементов
+		  rootStyles.setProperty('--col-white', '#eee');     // Светлый текст
+		  gameCanvas.style.boxShadow = '0px 0px 20px 20px #5757573f';
+		  gameScore.style.borderBottom = '3px dotted #575757	';
+		} else {
+		  // Светлая тема (по умолчанию)
+		  rootStyles.setProperty('--col-bg', '#477a91');     // Оригинальный фон
+		  rootStyles.setProperty('--col-primary-light', '#FF8800'); // Оригинальный цвет
+		  rootStyles.setProperty('--col-white', '#fff');     // Оригинальный текст
+		  gameCanvas.style.boxShadow = '0px 0px 15px 15px #e1ebf03f'; // Оригинальный box-shadow
+		  gameScore.style.borderBottom = '3px dotted #477a91';
+		}
+
+		
+	});
+
+	
+  
+

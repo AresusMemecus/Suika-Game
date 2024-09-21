@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
   <title>SuikaShield</title>
   <style>
@@ -35,10 +36,11 @@
       position: static;
       width: 100%;
       max-width: 500px;
-      height: 100vh;
+      height: 98vh;
       display: flex;
       align-items: center;
       margin: 0 auto;
+      margin-top: 1vh;
     }
 
     #game-canvas {
@@ -150,28 +152,31 @@
 
     .menu{
       position:relative;
-      margin: 20px;
-      bottom: 45vh;
+      margin-left: 5px;
+      bottom: 43vh;
 
     }
-    .volume {   
+    .settings {
+      margin: 20px;   
       display: flex;
-      justify-content: center;
+      justify-content: left;
       align-items: center;
     }
-    .volume input[type=range] {
+    .settings input[type=range] {
       display: none;
     }
-    .volume .icon-size {
+
+    .settings .icon-size {
+      cursor: pointer;
       font-size: 2rem;
       color: white;
     }
-    .volume .bar-hoverbox {
+    .settings .bar-hoverbox {
       padding: 10px 15px;
       opacity: 0.0;
       transition: opacity 0.2s;
     }
-    .volume .bar-hoverbox:hover {
+    .settings .bar-hoverbox:hover {
       opacity: 1;
       cursor: pointer;
     }
@@ -179,7 +184,7 @@
     opacity: 1; /* При наведении на volumepos делаем бар видимым */
     visibility: visible;
     }
-    .volume .bar {
+    .settings .bar {
       background: #999;
       height: 7px;
       width: 120px;
@@ -187,13 +192,15 @@
       overflow: hidden;
       pointer-events: none;
     }
-    .volume .bar .bar-fill {
+    .settings .bar .bar-fill {
       background: #FFF;
       width: 0%;
       height: 100%;
       background-clip: border-box;
       pointer-events: none;
     }
+    
+    
 
 
   </style>
@@ -225,7 +232,17 @@
       </div>
     </div>
     <div class="menu">
-      <div class="volume">
+
+
+      <div class="settings">
+        <div class="icon-size">
+          <i class="bi bi-brightness-high-fill" aria-hidden="true" id="theme-switcher"></i>
+        </div>
+      </div>
+
+      
+
+      <div class="settings">
         <input type="range" min="0" max="100" value="50" class="volume-range">
         <div class="icon">
           <i class="fa fa-volume-up icon-size" aria-hidden="true"></i>
@@ -236,6 +253,8 @@
           </div>
         </div>
       </div>
+      
+
     </div>
   </div>
   <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
