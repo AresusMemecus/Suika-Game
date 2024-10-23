@@ -1,0 +1,53 @@
+.menu{
+    position:relative;
+    margin-left: 5px;
+
+  }
+  .settings {
+    margin: 20px;   
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+  .settings input[type=range] {
+    display: none;
+  }
+
+  .settings .icon-size {
+    cursor: pointer;
+    font-size: 2rem;
+    color: white;
+  }
+  .settings .bar-hoverbox {
+    padding: 10px 15px;
+    opacity: 0.0;
+    transition: opacity 0.2s;
+  }
+  .settings .bar-hoverbox:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  .volumepos:hover .bar-hoverbox {
+  opacity: 1; /* При наведении на volumepos делаем бар видимым */
+  visibility: visible;
+  }
+  .settings .bar {
+    background: #999;
+    height: 7px;
+    width: 120px;
+    border-radius: 15px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .settings .bar .bar-fill {
+    background: #FFF;
+    width: 0%;
+    height: 100%;
+    background-clip: border-box;
+    pointer-events: none;
+  }
+  
+  a {
+  text-decoration: none; 
+  color: inherit; 
+  }

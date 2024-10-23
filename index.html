@@ -3,211 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+  
+  <link rel="stylesheet" href="./game.css">
+  <link rel="stylesheet" href="./option.css">
+  
   <title>SuikaShield</title>
-  <style>
-
-    @import url('https://fonts.cdnfonts.com/css/archive');
-
-    :root {
-      --col-bg: #477a91;;
-      --col-bg-light: #e40202;
-      --col-bg-lighter: #ffffff;
-      --col-primary-dark: #FF2700;
-      --col-primary-light: #FF8800;
-      --col-shadow: rgba(0, 0, 0, 0.25);
-      --col-white: #fff;
-    }
-
-    * {
-      box-sizing: border-box;
-      padding: 0;
-      margin: 0;
-      line-height: 1;
-    }
-
-    body {
-        background-color: var(--col-bg);
-        font-family: 'Archive', sans-serif;
-    }
-
-    .container {
-      position: static;
-      width: 100%;
-      max-width: 500px;
-      height: 98vh;
-      display: flex;
-      align-items: top;
-      margin: 0 auto;
-      margin-top: 1vh;
-    }
-
-    #game-canvas {
-      position: static;
-      box-shadow: 0px 0px 15px 15px #e1ebf03f;
-    }
-
-    #game-ui {
-      position: absolute;
-      width: 640px;
-      height: 960px;
-      pointer-events: none;
-      user-select: none;
-      font-weight: 700;
-      display: none;
-      transform-origin: top left;
-    }
-
-    #game-score {
-      position: absolute;
-      width: 100%;
-      border-bottom: 3px dotted #477a91;
-      font-size: 84px;
-      font-weight: 900;
-      padding-left: 16px;
-      color: var(--col-bg-lighter);
-      text-shadow: 3px 3px 0 var(--col-primary), -3px -3px 0 var(--col-primary), -3px 3px 0 var(--col-primary), 3px -3px 0 var(--col-primary);
-    }
-
-    #game-end-container {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-items: center;
-      background-color: var(--col-shadow);
-    }
-
-    #game-end {
-      text-align: center;
-      padding: 32px 48px;
-      background-color: var(--col-bg-lighter);
-      border: 5px solid var(--col-primary);
-      box-shadow: 0 4px 32px var(--col-shadow);
-      border-radius: 32px;
-      margin: 0 auto;
-      pointer-events: initial;
-      user-select: initial;
-    }
-
-    #game-end-title {
-      font-weight: 700;
-      font-size: 48px;
-      color: var(--col-primary-dark);
-    }
-
-    #game-end-link {
-      display: inline-block;
-      color: var(--col-white);
-      font-size: 24px;
-      text-decoration: none;
-      background-color: var(--col-primary-light);
-      margin-top: 16px;
-      padding: 16px;
-      border-radius: 16px;
-      box-shadow: 4px 4px 0 var(--col-shadow);
-    }
-
-    #game-end-link:hover {
-      background-color: var(--col-primary);
-      box-shadow: 6px 6px 0 var(--col-shadow);
-    }
-
-    #game-status {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 48px;
-      background-color: var(--col-bg-lighter);
-      display: flex;
-    }
-
-    .game-status-item {
-      display: flex;
-      line-height: 1;
-      align-items: center;
-      margin-right: 32px;
-    }
-
-    .game-status-label {
-      color: #666;
-      font-size: 16px;
-      margin-left: 24px;
-      margin-right: 8px;
-    }
-
-    #game-highscore-value {
-      color: #333;
-      font-weight: 700;
-      font-size: 24px;
-    }
-
-    #game-next-fruit {
-      width: 24px;
-      height: 24px;
-    }
-
-    .menu{
-      position:relative;
-      margin-left: 5px;
-
-    }
-    .settings {
-      margin: 20px;   
-      display: flex;
-      justify-content: left;
-      align-items: center;
-    }
-    .settings input[type=range] {
-      display: none;
-    }
-
-    .settings .icon-size {
-      cursor: pointer;
-      font-size: 2rem;
-      color: white;
-    }
-    .settings .bar-hoverbox {
-      padding: 10px 15px;
-      opacity: 0.0;
-      transition: opacity 0.2s;
-    }
-    .settings .bar-hoverbox:hover {
-      opacity: 1;
-      cursor: pointer;
-    }
-    .volumepos:hover .bar-hoverbox {
-    opacity: 1; /* При наведении на volumepos делаем бар видимым */
-    visibility: visible;
-    }
-    .settings .bar {
-      background: #999;
-      height: 7px;
-      width: 120px;
-      border-radius: 15px;
-      overflow: hidden;
-      pointer-events: none;
-    }
-    .settings .bar .bar-fill {
-      background: #FFF;
-      width: 0%;
-      height: 100%;
-      background-clip: border-box;
-      pointer-events: none;
-    }
-    
-    a {
-    text-decoration: none; 
-    color: inherit; 
-}
-    
-    
-
-
-  </style>
+  
 </head>
 <body>
   <div class="container">
@@ -230,7 +34,7 @@
           <div class="game-status-item">
             <div class="game-status-label">Next</div>
             <img id="game-next-fruit" src="./assets/img/circle0.png" />
-            <div class="game-status-label">t.me/AresusMemecus</div>
+            <div class="game-status-label"></div>
           </div>
         </div>
       </div>
@@ -269,9 +73,12 @@
 
     </div>
   </div>
+  
   <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
   <script type="text/javascript" src="./matter.js"></script>
-  <script type="text/javascript" src="./index.js?v=4"></script>
+
+  <script type="text/javascript" src="./game.js"></script>
+  <script type="text/javascript" src="./option.js"></script>
 
 </body>
 </html>
