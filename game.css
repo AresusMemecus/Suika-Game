@@ -1,40 +1,159 @@
+@font-face {
+  font-family: "Archive", sans-serif;
+  src: url(./assets/Archive-Regular.woff) format('woff');
+}
 
-
-
-@import url('https://fonts.cdnfonts.com/css/archive');
 
 :root {
   --col-bg: #477a91;;
   --col-bg-light: #e40202;
   --col-bg-lighter: #ffffff;
   --col-primary-dark: #FF2700;
-  --col-primary-light: #FF8800;
+  --col-primary-light: #477a91;
   --col-shadow: rgba(0, 0, 0, 0.25);
   --col-white: #fff;
 }
 
 * {
+  z-index: 1;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   line-height: 1;
 }
 
+.TopList{
+  align-items: center;
+  position: absolute;
+  padding-left: 1%;
+  transform: translate(0%, 50%);
+}
+
+.TopName{
+  width: 200px;
+  display: flex;
+  color: white;
+  font-size: 30px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.705);
+  align-items: center;
+  flex-direction: column;
+}
+
+table {
+  border-radius: 10px;
+  background-color: #00000046;
+  font-size: 30px;
+  z-index: 0;
+  position: absolute;
+  border: none; /* Убираем обводку у таблицы */
+  color: white; /* Цвет текста */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.705);
+}
+
+td, th {
+  z-index: 0;
+  border: none; 
+  padding: 4px; 
+}
+
+
 body {
     background-color: var(--col-bg);
-    font-family: 'Archive', sans-serif;
+    font-family: "Archive", sans-serif;
 }
+
+
 
 .container {
   position: static;
   width: 100%;
   max-width: 500px;
-  height: 98vh;
+  height: 100vh;
   display: flex;
   align-items: top;
   margin: 0 auto;
-  margin-top: 1vh;
 }
+
+#game-start-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+#game-start{
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  align-items: stretch;
+  width: 80%;
+}
+
+.menu-elements{
+  margin: 10px;
+}
+
+.logo{
+  margin-bottom: 150px;
+}
+
+input{
+  font-family: "Archive", sans-serif;
+  background: #7a0a1b;
+  border-radius: 25px;
+  box-shadow: rgb(0 0 0 / 60%) 5px 5px 10px;
+  border: none;
+  color: #fbbb5d;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 60px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 100px;
+  outline: 0;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+
+input::placeholder {
+  color: #fbbc5d91; /* Цвет текста placeholder */
+  font-weight: normal; /* Установите вес шрифта для placeholder, если нужно */
+  opacity: 1; /* Убедитесь, что текст не слишком блеклый */
+}
+
+button {
+  font-family: "Archive", sans-serif;
+  background: #7a0a1b;
+  border-radius: 25px;
+  box-shadow: rgb(0 0 0 / 60%) 5px 5px 10px;
+  border: none;
+  color: #fbbb5d;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 80px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 100px;
+  outline: 0;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+
 
 #game-canvas {
   position: static;
@@ -45,14 +164,15 @@ body {
   position: absolute;
   width: 640px;
   height: 960px;
-  pointer-events: none;
+  pointer-events: all;
   user-select: none;
   font-weight: 700;
-  display: none;
+  display: block;
   transform-origin: top left;
 }
 
 #game-score {
+  display: none;
   position: absolute;
   width: 100%;
   border-bottom: 3px dotted #477a91;
@@ -67,7 +187,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  display: flex;
+  display: none;
   align-items: center;
   justify-items: center;
   background-color: var(--col-shadow);
@@ -115,7 +235,7 @@ body {
   bottom: 0;
   height: 48px;
   background-color: var(--col-bg-lighter);
-  display: flex;
+  display: none;
 }
 
 .game-status-item {

@@ -200,13 +200,6 @@ document.addEventListener("DOMContentLoaded", () => {
           Game.sounds.pop9.volume = value / 100;
           Game.sounds.pop10.volume = value / 100;
   
-          if (value == 0) {
-              icon.classList.remove("fa-volume-up");
-              icon.classList.add("fa-volume-mute");
-            } else {
-              icon.classList.remove("fa-volume-mute");
-              icon.classList.add("fa-volume-up");
-            }
       };
   
       range.addEventListener("change", (e) => {
